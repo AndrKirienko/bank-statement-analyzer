@@ -1,9 +1,19 @@
-## Getting Started
+# Bank Statement Analyzer
 
-First, run the development server:
+The project is a tool for analyzing bank statements.
+
+## How to get started
+
+**1. Install the dependencies:**
+
+```bash
+npm install
+```
+
+**2. Start the development server:**
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**3. Open [http://localhost:3000](http://localhost:3000) in your browser.**
