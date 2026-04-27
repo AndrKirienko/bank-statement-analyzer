@@ -2,6 +2,9 @@
 
 import React from "react";
 import { useDropzone, Accept } from "react-dropzone";
+import { Card } from "@/components/ui/card";
+import { UploadCloud, FileText } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface FileUploaderProps {
   onFileSelect: (file: File) => void;
@@ -13,9 +16,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
   accept = { "text/csv": [".csv"] },
 }) => {
   const onDrop = (acceptedFiles: File[]) => {
-    if (acceptedFiles[0]) {
-      onFileSelect(acceptedFiles[0]);
-    }
+    if (acceptedFiles[0]) onFileSelect(acceptedFiles[0]);
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -25,26 +26,27 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
   });
 
   return (
-    <div
+    <Card
       {...getRootProps()}
-      className={`w-full max-w-xl cursor-pointer rounded-2xl border-4 border-dashed p-16 text-center transition-all ${
-        isDragActive
-          ? "scale-105 border-blue-500 bg-blue-50 shadow-lg"
-          : "border-gray-300 bg-white hover:border-gray-400"
-      }`}
+      className={cn(
+        "hover:bg-muted/50 w-full max-w-xl cursor-pointer border-2 border-dashed p-16 text-center transition-all",
+        isDragActive ? "border-primary bg-muted/50 scale-[1.02]" : "border-muted-foreground/25"
+      )}
     >
       <input {...getInputProps()} />
       <div className="flex flex-col items-center gap-4">
-        <div className="mb-2 text-5xl text-blue-500">{isDragActive ? "📥" : "📄"}</div>
+        <div className="text-primary opacity-80">
+          {isDragActive ? <UploadCloud size={48} /> : <FileText size={48} />}
+        </div>
         <div className="space-y-2">
-          <p className="text-xl font-semibold text-gray-700">
-            {isDragActive ? "Drop the file here..." : "Drag & Drop CSV file"}
+          <p className="text-xl font-semibold tracking-tight">
+            {isDragActive ? "Drop the file here" : "Drag & Drop CSV file"}
           </p>
-          <p className="text-gray-500">
-            or <span className="text-blue-600 underline">click to select</span>
+          <p className="text-muted-foreground text-sm">
+            or <span className="text-primary underline">click to select</span>
           </p>
         </div>
       </div>
-    </div>
+    </Card>
   );
 };

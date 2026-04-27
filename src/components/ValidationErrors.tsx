@@ -2,6 +2,9 @@
 
 import React from "react";
 import { ValidationError } from "@/lib/schema";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
+import { Card } from "@/components/ui/card";
 
 interface ValidationErrorsProps {
   errors: ValidationError[];
@@ -11,23 +14,27 @@ export const ValidationErrors: React.FC<ValidationErrorsProps> = ({ errors }) =>
   if (errors.length === 0) return null;
 
   return (
-    <div className="mt-6 w-full max-w-xl rounded border-l-4 border-red-500 bg-red-50 p-4 text-red-700 shadow-sm">
-      <p className="mb-3 text-lg font-bold text-red-800">
-        ⚠️ Errors in the data: ({errors.length} lines):
-      </p>
+    <div className="mt-6 w-full max-w-xl space-y-4">
+      <Alert variant="destructive">
+        <AlertCircle className="h-4 w-4" />
+        <AlertTitle>Validation Failed</AlertTitle>
+        <AlertDescription>{errors.length} rows contain errors and were skipped.</AlertDescription>
+      </Alert>
 
-      <ul className="custom-scrollbar max-h-60 space-y-3 overflow-y-auto pr-2">
+      <div className="custom-scrollbar max-h-64 space-y-2 overflow-y-auto pr-2">
         {errors.map((err, index) => (
-          <li key={index} className="rounded border border-red-100 bg-white/50 p-2 text-sm">
-            <div className="mb-1 font-bold text-red-900">Line {err.row}:</div>
-            <ul className="list-inside list-disc space-y-0.5 opacity-90">
+          <Card key={index} className="border-destructive/20 bg-destructive/5 p-3">
+            <p className="text-destructive text-xs font-bold uppercase tracking-wider">
+              Line {err.row}
+            </p>
+            <ul className="text-muted-foreground mt-1 list-inside list-disc text-sm">
               {err.messages.map((msg, i) => (
                 <li key={i}>{msg}</li>
               ))}
             </ul>
-          </li>
+          </Card>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
