@@ -8,20 +8,22 @@ export const parseStatementFile = (file: File): Promise<ParseStatementResult> =>
       skipEmptyLines: true,
       complete: (results) => {
         const transactions: Transaction[] = [];
-        const errors: { row: number; message: string }[] = [];
+        const errors: { row: number; messages: string[] }[] = [];
 
         results.data.forEach((row: any, index: number) => {
           const result = transactionSchema.safeParse(row);
+
           if (result.success) {
             transactions.push(result.data);
           } else {
+            const allMessages = result.error.issues.map((issue) => issue.message);
+
             errors.push({
               row: index + 2,
-              message: "Invalid data format or missing fields",
+              messages: allMessages,
             });
           }
         });
-
         resolve({ transactions, errors });
       },
     });
