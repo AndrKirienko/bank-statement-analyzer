@@ -7,6 +7,7 @@ import { FileUploader } from "@/components/FileUploader";
 import { ValidationErrors } from "@/components/ValidationErrors";
 import { SummaryCards } from "@/components/SummaryCards";
 import { TransactionTable } from "@/components/TransactionTable";
+import { TopCounterparties } from "@/components/TopCounterparties";
 
 export default function HomePage() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -47,7 +48,15 @@ export default function HomePage() {
 
             <div className="mt-8">
               <h2 className="mb-4 text-xl font-semibold text-gray-700">Detailed Report</h2>
-              <TransactionTable data={transactions} />
+
+              <div className="flex flex-col items-start gap-6 lg:flex-row">
+                <div className="w-full flex-1 overflow-hidden">
+                  <TransactionTable data={transactions} />
+                </div>
+                <div className="animate-in fade-in slide-in-from-right-4 w-full duration-700 lg:w-fit">
+                  <TopCounterparties transactions={transactions} />
+                </div>
+              </div>
             </div>
           </div>
         ) : (
