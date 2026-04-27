@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
+import { filterTransactions } from "@/lib/statement";
 
 interface TransactionTableProps {
   data: Transaction[];
@@ -20,22 +21,10 @@ interface TransactionTableProps {
 export const TransactionTable: React.FC<TransactionTableProps> = ({ data }) => {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<"all" | "income" | "expense">("all");
-
-  const filteredData = useMemo(() => {
-    return data.filter((t) => {
-      const matchesSearch =
-        t.counterparty.toLowerCase().includes(search.toLowerCase()) ||
-        t.description.toLowerCase().includes(search.toLowerCase());
-
-      const matchesFilter =
-        filter === "all" ||
-        (filter === "income" && t.amount > 0) ||
-        (filter === "expense" && t.amount < 0);
-
-      return matchesSearch && matchesFilter;
-    });
-  }, [data, search, filter]);
-
+  const filteredData = useMemo(
+    () => filterTransactions(data, search, filter),
+    [data, search, filter]
+  );
   return (
     <Card className="w-full max-w-5xl overflow-hidden">
       <div className="flex flex-col items-center justify-between gap-4 border-b p-4 md:flex-row">

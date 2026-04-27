@@ -1,19 +1,14 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TrendingUp, TrendingDown, Wallet, Hash } from "lucide-react";
 import { Transaction } from "@/lib/schema";
+import { calculateSummary } from "@/lib/statement";
 
 interface SummaryProps {
   transactions: Transaction[];
 }
 
 export const SummaryCards: React.FC<SummaryProps> = ({ transactions }) => {
-  const income = transactions.filter((t) => t.amount > 0).reduce((sum, t) => sum + t.amount, 0);
-
-  const expenses = transactions
-    .filter((t) => t.amount < 0)
-    .reduce((sum, t) => sum + Math.abs(t.amount), 0);
-
-  const balance = income - expenses;
+  const { income, expenses, balance } = calculateSummary(transactions);
 
   return (
     <div className="mb-8 grid w-full max-w-5xl grid-cols-1 gap-4 md:grid-cols-4">

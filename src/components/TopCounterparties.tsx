@@ -4,30 +4,15 @@ import React, { useMemo } from "react";
 import { Transaction } from "@/lib/schema";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TrendingDown } from "lucide-react";
+import { getTopExpenses } from "@/lib/statement";
 
 interface TopCounterpartiesProps {
   transactions: Transaction[];
 }
 
 export const TopCounterparties: React.FC<TopCounterpartiesProps> = ({ transactions }) => {
-  const topExpenses = useMemo(() => {
-    const expenses = transactions.filter((t) => t.amount < 0);
-
-    const grouped = expenses.reduce(
-      (acc, t) => {
-        const name = t.counterparty || "Unknown";
-        acc[name] = (acc[name] || 0) + Math.abs(t.amount);
-        return acc;
-      },
-      {} as Record<string, number>
-    );
-
-    return Object.entries(grouped)
-      .map(([name, total]) => ({ name, total }))
-      .sort((a, b) => b.total - a.total)
-      .slice(0, 5);
-  }, [transactions]);
-
+  const topExpenses = useMemo(() => getTopExpenses(transactions), [transactions]);
+	
   if (topExpenses.length === 0) return null;
 
   return (

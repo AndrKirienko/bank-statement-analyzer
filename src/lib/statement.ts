@@ -29,3 +29,57 @@ export const parseStatementFile = (file: File): Promise<ParseStatementResult> =>
     });
   });
 };
+
+export const calculateSummary = (transactions: Transaction[]) => {
+  const income = transactions.filter((t) => t.amount > 0).reduce((sum, t) => sum + t.amount, 0);
+
+  const expenses = transactions
+    .filter((t) => t.amount < 0)
+    .reduce((sum, t) => sum + Math.abs(t.amount), 0);
+
+  return {
+    income,
+    expenses,
+    balance: income - expenses,
+    count: transactions.length,
+  };
+};
+
+export const getTopExpenses = (transactions: Transaction[], limit = 5) => {
+  const expenses = transactions.filter((t) => t.amount < 0);
+
+  const grouped = expenses.reduce(
+    (acc, t) => {
+      const name = t.counterparty || "Unknown";
+      acc[name] = (acc[name] || 0) + Math.abs(t.amount);
+      return acc;
+    },
+    {} as Record<string, number>
+  );
+
+  return Object.entries(grouped)
+    .map(([name, total]) => ({ name, total }))
+    .sort((a, b) => b.total - a.total)
+    .slice(0, limit);
+};
+
+export const filterTransactions = (
+  transactions: Transaction[],
+  search: string,
+  filter: "all" | "income" | "expense"
+) => {
+  const searchTerm = search.toLowerCase();
+
+  return transactions.filter((t) => {
+    const matchesSearch =
+      t.counterparty.toLowerCase().includes(searchTerm) ||
+      t.description.toLowerCase().includes(searchTerm);
+
+    const matchesFilter =
+      filter === "all" ||
+      (filter === "income" && t.amount > 0) ||
+      (filter === "expense" && t.amount < 0);
+
+    return matchesSearch && matchesFilter;
+  });
+};
