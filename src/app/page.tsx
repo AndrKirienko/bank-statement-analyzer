@@ -5,6 +5,7 @@ import { parseStatementFile } from "@/lib/statement";
 import { type Transaction, type ValidationError } from "@/lib/schema";
 import { FileUploader } from "@/components/FileUploader";
 import { ValidationErrors } from "@/components/ValidationErrors";
+import { SummaryCards } from "@/components/SummaryCards";
 import { TransactionTable } from "@/components/TransactionTable";
 
 export default function HomePage() {
@@ -40,6 +41,10 @@ export default function HomePage() {
       <section className="flex-1 overflow-y-auto p-10">
         {transactions.length > 0 ? (
           <div className="animate-in fade-in duration-500">
+            <h2 className="mb-6 text-xl font-semibold text-gray-700">Financial Overview</h2>
+
+            <SummaryCards transactions={transactions} />
+
             <div className="mt-8">
               <h2 className="mb-4 text-xl font-semibold text-gray-700">Detailed Report</h2>
               <TransactionTable data={transactions} />
