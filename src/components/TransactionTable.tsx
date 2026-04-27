@@ -37,7 +37,7 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({ data }) => {
   }, [data, search, filter]);
 
   return (
-    <Card className="mt-6 w-full max-w-5xl overflow-hidden">
+    <Card className="w-full max-w-5xl overflow-hidden">
       <div className="flex flex-col items-center justify-between gap-4 border-b p-4 md:flex-row">
         <Input
           placeholder="Search by counterparty or description..."
