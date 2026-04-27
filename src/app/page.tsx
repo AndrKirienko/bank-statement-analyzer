@@ -5,6 +5,7 @@ import { parseStatementFile } from "@/lib/statement";
 import { type Transaction, type ValidationError } from "@/lib/schema";
 import { FileUploader } from "@/components/FileUploader";
 import { ValidationErrors } from "@/components/ValidationErrors";
+import { TransactionTable } from "@/components/TransactionTable";
 
 export default function HomePage() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -17,17 +18,43 @@ export default function HomePage() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center bg-gray-50 p-10">
-      <h1 className="mb-8 text-3xl font-bold text-gray-800">Bank Statement Analyzer</h1>
+    <main className="flex min-h-screen bg-gray-50">
+      <aside className="sticky top-0 flex h-screen w-[400px] flex-col gap-6 overflow-y-auto border-r bg-white p-6 shadow-sm">
+        <div>
+          <h1 className="mb-6 text-2xl font-bold tracking-tight text-gray-800">
+            Bank Statement <br /> <span className="text-blue-600">Analyzer</span>
+          </h1>
 
-      <FileUploader onFileSelect={handleFileSelect} />
-      <ValidationErrors errors={errors} />
-
-      {transactions.length > 0 && (
-        <div className="animate-in fade-in slide-in-from-bottom-2 mt-6 font-medium text-green-600">
-          ✅ Processed successfully: {transactions.length} transactions
+          <FileUploader onFileSelect={handleFileSelect} />
         </div>
-      )}
+
+        {transactions.length > 0 && (
+          <div className="rounded-lg border border-green-100 bg-green-50 p-3 text-sm font-medium text-green-700">
+            ✅ {transactions.length} transactions loaded
+          </div>
+        )}
+
+        <ValidationErrors errors={errors} />
+      </aside>
+
+      <section className="flex-1 overflow-y-auto p-10">
+        {transactions.length > 0 ? (
+          <div className="animate-in fade-in duration-500">
+            <div className="mt-8">
+              <h2 className="mb-4 text-xl font-semibold text-gray-700">Detailed Report</h2>
+              <TransactionTable data={transactions} />
+            </div>
+          </div>
+        ) : (
+          <div className="flex h-full flex-col items-center justify-center text-center opacity-40">
+            <div className="mb-4 text-6xl">📊</div>
+            <h2 className="text-2xl font-medium">No data to display</h2>
+            <p className="mt-2 text-gray-500">
+              Please upload a bank statement CSV file to start the analysis.
+            </p>
+          </div>
+        )}
+      </section>
     </main>
   );
 }
