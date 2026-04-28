@@ -41,7 +41,7 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({ data }) => {
               key={f}
               onClick={() => setFilter(f)}
               className={`rounded-sm px-3 py-1 text-sm capitalize transition-all ${
-                filter === f ? "bg-white font-medium shadow-sm" : "text-muted-foreground"
+                filter === f ? "bg-card font-medium shadow-sm" : "text-muted-foreground"
               }`}
             >
               {f}

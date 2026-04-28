@@ -9,6 +9,7 @@ import { SummaryCards } from "@/components/SummaryCards";
 import { TransactionTable } from "@/components/TransactionTable";
 import { TopCounterparties } from "@/components/TopCounterparties";
 import { ExportButton } from "@/components/ExportButton";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default function HomePage() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -22,11 +23,16 @@ export default function HomePage() {
 
   return (
     <main className="flex min-h-screen bg-gray-50">
-      <aside className="sticky top-0 flex h-screen w-[400px] flex-col gap-6 overflow-y-auto border-r bg-white p-6 shadow-sm">
+      <aside className="sticky top-0 flex h-screen w-[400px] flex-col gap-6 overflow-y-auto border-r bg-card p-6 shadow-sm">
         <div>
-          <h1 className="mb-6 text-2xl font-bold tracking-tight text-gray-800">
-            Bank Statement <br /> <span className="text-blue-600">Analyzer</span>
-          </h1>
+          <div className="flex justify-between">
+            <h1 className="mb-6 text-2xl font-bold tracking-tight">
+              Bank Statement <br /> <span className="text-blue-600">Analyzer</span>
+            </h1>
+            <div className="w-20">
+              <ThemeToggle />
+            </div>
+          </div>
 
           <FileUploader onFileSelect={handleFileSelect} />
         </div>
@@ -34,15 +40,15 @@ export default function HomePage() {
         <ValidationErrors errors={errors} />
       </aside>
 
-      <section className="flex-1 overflow-y-auto p-10">
+      <section className="flex-1 overflow-y-auto bg-card p-10">
         {transactions.length > 0 ? (
           <div className="duration-500 animate-in fade-in">
-            <h2 className="mb-6 text-xl font-semibold text-gray-700">Financial Overview</h2>
+            <h2 className="mb-6 text-xl font-semibold">Financial Overview</h2>
 
             <SummaryCards transactions={transactions} />
 
             <div className="mt-8">
-              <h2 className="mb-4 text-xl font-semibold text-gray-700">Detailed Report</h2>
+              <h2 className="mb-4 text-xl font-semibold">Detailed Report</h2>
 
               <div className="flex flex-col items-start gap-6 lg:flex-row">
                 <div className="w-full flex-1 overflow-hidden">
