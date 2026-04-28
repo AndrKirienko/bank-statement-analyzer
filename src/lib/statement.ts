@@ -10,7 +10,7 @@ export const parseStatementFile = (file: File): Promise<ParseStatementResult> =>
         const transactions: Transaction[] = [];
         const errors: { row: number; messages: string[] }[] = [];
 
-        results.data.forEach((row: any, index: number) => {
+        results.data.forEach((row: unknown, index: number) => {
           const result = transactionSchema.safeParse(row);
 
           if (result.success) {
