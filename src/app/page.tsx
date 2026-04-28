@@ -9,6 +9,7 @@ import { SummaryCards } from "@/components/SummaryCards";
 import { TransactionTable } from "@/components/TransactionTable";
 import { TopCounterparties } from "@/components/TopCounterparties";
 import { ExportButton } from "@/components/ExportButton";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default function HomePage() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -24,9 +25,14 @@ export default function HomePage() {
     <main className="flex min-h-screen bg-gray-50">
       <aside className="sticky top-0 flex h-screen w-[400px] flex-col gap-6 overflow-y-auto border-r bg-white p-6 shadow-sm">
         <div>
-          <h1 className="mb-6 text-2xl font-bold tracking-tight text-gray-800">
+          <div className="flex justify-between">
+            <h1 className="mb-6 text-2xl font-bold tracking-tight">
             Bank Statement <br /> <span className="text-blue-600">Analyzer</span>
           </h1>
+            <div className="w-20">
+              <ThemeToggle />
+            </div>
+          </div>
 
           <FileUploader onFileSelect={handleFileSelect} />
         </div>
