@@ -29,7 +29,9 @@ export const ValidationErrors: React.FC<ValidationErrorsProps> = ({ errors }) =>
             </p>
             <ul className="text-muted-foreground mt-1 list-inside list-disc text-sm">
               {err.messages.map((msg, i) => (
-                <li key={i}>{msg}</li>
+                <li key={i} className="text-primary">
+                  {msg}
+                </li>
               ))}
             </ul>
           </Card>
