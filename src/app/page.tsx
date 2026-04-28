@@ -30,18 +30,12 @@ export default function HomePage() {
           <FileUploader onFileSelect={handleFileSelect} />
         </div>
 
-        {transactions.length > 0 && (
-          <div className="rounded-lg border border-green-100 bg-green-50 p-3 text-sm font-medium text-green-700">
-            ✅ {transactions.length} transactions loaded
-          </div>
-        )}
-
         <ValidationErrors errors={errors} />
       </aside>
 
       <section className="flex-1 overflow-y-auto p-10">
         {transactions.length > 0 ? (
-          <div className="animate-in fade-in duration-500">
+          <div className="duration-500 animate-in fade-in">
             <h2 className="mb-6 text-xl font-semibold text-gray-700">Financial Overview</h2>
 
             <SummaryCards transactions={transactions} />
@@ -53,7 +47,7 @@ export default function HomePage() {
                 <div className="w-full flex-1 overflow-hidden">
                   <TransactionTable data={transactions} />
                 </div>
-                <div className="animate-in fade-in slide-in-from-right-4 w-full duration-700 lg:w-fit">
+                <div className="w-full duration-700 animate-in fade-in slide-in-from-right-4 lg:w-fit">
                   <TopCounterparties transactions={transactions} />
                 </div>
               </div>
