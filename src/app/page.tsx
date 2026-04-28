@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { FileText } from "lucide-react";
 import { parseStatementFile } from "@/lib/statement";
 import { type Transaction, type ValidationError } from "@/lib/schema";
 import { FileUploader } from "@/components/FileUploader";
@@ -14,8 +15,10 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 export default function HomePage() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [errors, setErrors] = useState<ValidationError[]>([]);
+  const [fileName, setFileName] = useState<string | null>(null);
 
   const handleFileSelect = async (file: File) => {
+    setFileName(file.name);
     const result = await parseStatementFile(file);
     setTransactions(result.transactions);
     setErrors(result.errors);
@@ -35,6 +38,12 @@ export default function HomePage() {
           </div>
 
           <FileUploader onFileSelect={handleFileSelect} />
+          {fileName && (
+            <div className="mt-4 flex items-center gap-2 rounded-lg border bg-muted/50 p-3 text-sm">
+              <FileText className="h-4 w-4 text-primary" />
+              <span className="truncate font-medium">{fileName}</span>
+            </div>
+          )}
         </div>
 
         <ValidationErrors errors={errors} />
