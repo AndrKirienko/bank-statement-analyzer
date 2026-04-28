@@ -1,5 +1,3 @@
-import animate from "tailwindcss-animate"
-
 module.exports = {
   darkMode: ["class"],
   content: [
