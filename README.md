@@ -20,6 +20,8 @@ npm run dev
 
 ## Main Dashboard with parsed transaction data
 
+Main Dashboard featuring financial summary cards and validated transaction list.
+
 ![Dashboard](./public/screenshots/dashboard.png)
 
 ## Challenges & Insights
