@@ -24,6 +24,12 @@ Main Dashboard featuring financial summary cards and validated transaction list.
 
 ![Dashboard](./public/screenshots/dashboard.png)
 
+## Video Demonstration
+
+To see the application in action—including file upload, data validation, and dark mode toggling—check out the demo video below:
+
+[![Watch the demo](./public/screenshots/dashboard.png)](https://youtu.be/e3N5IXzk8x8 "https://youtu.be/e3N5IXzk8x8")
+
 ## Challenges & Insights
 
 Implementing this project provided several technical challenges that required deep dives into documentation and environment configuration:
