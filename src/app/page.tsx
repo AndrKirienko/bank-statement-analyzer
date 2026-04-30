@@ -10,6 +10,7 @@ import { SummaryCards } from "@/components/SummaryCards";
 import { TransactionTable } from "@/components/TransactionTable";
 import { TopCounterparties } from "@/components/TopCounterparties";
 import { ExportButton } from "@/components/ExportButton";
+import { ExportJsonButton } from "@/components/ExportJsonButton";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default function HomePage() {
@@ -66,6 +67,9 @@ export default function HomePage() {
                 <div className="w-full duration-700 animate-in fade-in slide-in-from-right-4 lg:w-fit">
                   <TopCounterparties transactions={transactions} />
                   <ExportButton data={transactions} />
+                  <div className="mt-4">
+                    <ExportJsonButton data={transactions} />
+                  </div>
                 </div>
               </div>
             </div>
