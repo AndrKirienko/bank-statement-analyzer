@@ -21,10 +21,25 @@ interface TransactionTableProps {
 export const TransactionTable: React.FC<TransactionTableProps> = ({ data }) => {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<"all" | "income" | "expense">("all");
+  const [counterpartySort, setCounterpartySort] = useState<"asc" | "desc" | null>(null);
+
+  const toggleCounterpartySort = () => {
+    setCounterpartySort((prev) => (prev === "asc" ? "desc" : "asc"));
+  };
   const filteredData = useMemo(
     () => filterTransactions(data, search, filter),
     [data, search, filter]
   );
+  const sortedData = useMemo(() => {
+    if (!counterpartySort) return filteredData;
+
+    const direction = counterpartySort === "asc" ? 1 : -1;
+    return [...filteredData].sort((a, b) => {
+      const aName = String(a.counterparty ?? "");
+      const bName = String(b.counterparty ?? "");
+      return direction * aName.localeCompare(bName, undefined, { sensitivity: "base" });
+    });
+  }, [filteredData, counterpartySort]);
   return (
     <Card className="w-full max-w-5xl overflow-hidden">
       <div className="flex flex-col items-center justify-between gap-4 border-b p-4 md:flex-row">
@@ -54,14 +69,33 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({ data }) => {
         <TableHeader>
           <TableRow>
             <TableHead>Date</TableHead>
-            <TableHead>Counterparty</TableHead>
+            <TableHead
+              aria-sort={
+                counterpartySort === "asc"
+                  ? "ascending"
+                  : counterpartySort === "desc"
+                    ? "descending"
+                    : "none"
+              }
+            >
+              <button
+                type="button"
+                onClick={toggleCounterpartySort}
+                className="hover:text-foreground inline-flex items-center gap-1 transition-colors"
+              >
+                Counterparty
+                <span className="text-muted-foreground text-xs" aria-hidden="true">
+                  {counterpartySort === "asc" ? "▲" : counterpartySort === "desc" ? "▼" : ""}
+                </span>
+              </button>
+            </TableHead>
             <TableHead>Description</TableHead>
             <TableHead className="text-right">Amount</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {filteredData.length > 0 ? (
-            filteredData.map((t, i) => (
+          {sortedData.length > 0 ? (
+            sortedData.map((t, i) => (
               <TableRow key={i}>
                 <TableCell className="font-medium">{t.date}</TableCell>
                 <TableCell>{t.counterparty}</TableCell>
